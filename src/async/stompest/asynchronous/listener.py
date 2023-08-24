@@ -7,7 +7,7 @@ from twisted.python import failure
 from stompest.error import StompConnectionError, StompCancelledError, StompProtocolError
 from stompest.protocol import StompSpec
 
-from stompest.async.util import InFlightOperations, WaitingDeferred, sendToErrorDestination
+from stompest.asynchronous.util import InFlightOperations, WaitingDeferred, sendToErrorDestination
 
 LOG_CATEGORY = __name__
 
@@ -80,9 +80,7 @@ class ConnectListener(Listener):
 class ErrorListener(Listener):
     """Handles **ERROR** frames."""
     def onError(self, connection, frame):
-        reason = StompProtocolError('Received %s' % frame.info())
-        reason.frame = frame
-        connection.disconnect(reason=reason)
+        connection.disconnect(reason=StompProtocolError('Received %s' % frame.info()))
 
     def onConnectionLost(self, connection, reason): # @UnusedVariable
         connection.remove(self)

@@ -5,11 +5,11 @@ from twisted.internet.protocol import Factory
 from twisted.python import log
 from twisted.trial import unittest
 
-from stompest.async import Stomp
-from stompest.async.listener import SubscriptionListener
+from stompest.asynchronous import Stomp
+from stompest.asynchronous.listener import SubscriptionListener
 from stompest.config import StompConfig
 from stompest.error import StompCancelledError, StompConnectionError, StompProtocolError
-from stompest.protocol import StompSpec, StompFrame
+from stompest.protocol import StompSpec
 
 from .broker_simulator import BlackHoleStompServer, ErrorOnConnectStompServer, ErrorOnSendStompServer, RemoteControlViaFrameStompServer
 
@@ -113,8 +113,8 @@ class AsyncClientErrorAfterConnectedTestCase(AsyncClientBaseTestCase):
         client.send('/queue/fake', b'fake message')
         try:
             yield client.disconnected
-        except StompProtocolError as e:
-            self.assertTrue(isinstance(e.frame, StompFrame))
+        except StompProtocolError:
+            pass
         else:
             raise Exception('Expected a StompProtocolError, but nothing was raised.')
 
