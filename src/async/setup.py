@@ -4,7 +4,7 @@ import sys
 
 from setuptools import setup, find_packages
 
-from stompest import FULL_VERSION
+FULL_VERSION = 2.3.0
 
 def read(filename):
     return open(os.path.join(os.path.dirname(__file__), filename)).read()
